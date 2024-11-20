@@ -1,12 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class HistorialGrafico extends JPanel{
-    private Historial historial;
+public abstract class HistorialGrafico extends JPanel{
     private JLabel[][] cuadros; // representan cada cuadricula en la grilla
 
-    public HistorialGrafico(Historial historial){
-        this.historial = historial; // Usar el historial proporcionado
+    public HistorialGrafico(){
         this.cuadros = new JLabel[5][16];
         configurarPanel();
         inicializarCeldas();
@@ -16,6 +14,10 @@ public class HistorialGrafico extends JPanel{
     public void configurarPanel(){
         setLayout(new GridLayout(5, 16, 2, 2));
         setBackground(Color.DARK_GRAY);
+    }
+
+    public JLabel[][] getCuadros(){
+        return cuadros;
     }
 
     // Dibuja el tablero inicialmente con los numeros del 1 al 75
@@ -28,7 +30,8 @@ public class HistorialGrafico extends JPanel{
         for (int i = 0; i < 5; i++) {
             // crear el jlabel para la letra y centrar lo
             JLabel cuadro = new JLabel(letras[i], SwingConstants.CENTER);
-
+            cuadro.setOpaque(true);
+            cuadro.setPreferredSize(new Dimension(30, 30)); // Tamaño fijo
             // colorear el jlabel de distinto color dependiendo la fila
             switch (i) {
                 case 0:
@@ -42,66 +45,51 @@ public class HistorialGrafico extends JPanel{
                     cuadro.setBackground(Color.GREEN);
                     break;
                 case 3:
-                    cuadro.setBackground(Color.YELLOW);
+                    cuadro.setBackground(new Color(214, 194, 0));
                     break;
                 case 4:
                     // purpura o mas o menos
-                    cuadro.setBackground(new Color(202, 35, 189));
+                    cuadro.setBackground(new Color(190, 35, 189));
                     break;
                 default:
                     break;
             }
 
-            cuadro.setForeground(Color.BLACK);
+            cuadro.setForeground(Color.WHITE);
             cuadro.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            cuadro.setFont(new Font("Arial", Font.BOLD, 18));
             cuadros[i][0] = cuadro;
             add(cuadro);
-        }
 
-        // recorre las bolas del historial para dibujar las
-        Bola[][] celdas = historial.getCeldas();
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 15; j++) {
-                JLabel numero = new JLabel(String.valueOf(celdas[i][j].getNumero()), SwingConstants.CENTER);
+            for (int j = 1; j <= 15; j++) { // Columnas de 1 a 15
+                JLabel numero = new JLabel(String.valueOf((i * 15) + j), SwingConstants.CENTER);
                 numero.setOpaque(true);
-                numero.setBackground(Color.LIGHT_GRAY);
-                numero.setForeground(Color.BLACK);
+                numero.setFont(new Font("Arial", Font.BOLD, 16));
+                numero.setPreferredSize(new Dimension(30, 30)); // Tamaño fijo
+                numero.setBackground(new Color(20, 20, 20));
+                numero.setForeground(new Color(150, 150, 150));
                 numero.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                cuadros[i][j + 1] = numero; // +1 porque la columna 0 tiene las letras
-                add(numero);
+                cuadros[i][j] = numero; // Guardar en la matriz lógica
+                add(numero); // Agregar al panel
             }
         }
     }
 
-    // conforme un numero pasado al estar en orden calcula su posicion y lo pinta.
-    public void marcarBola(int numero){
-        int fila = 0, columna = 0;
-        if(numero >= 16 && numero <= 30){
-            fila = 1;
-        }else if(numero >= 31 && numero <= 45){
-            fila = 2;
-        }else if(numero >= 46 && numero <= 60){
-            fila = 3;
-        }else if(numero >= 61 && numero <= 75){
-            fila = 4;
-        }
-
-        columna = (numero - 1) % 15 + 1; // Restamos 1 al número porque las columnas empiezan desde 1
-
-        JLabel cuadro = cuadros[fila][columna];
-        cuadro.setBackground(Color.YELLOW); // Cambiar color
-        cuadro.setForeground(Color.BLACK);
-        historial.marcarBola(fila, columna);
-    }
+    public abstract void marcarBola(int numero);
 
     public void resetHistorial() {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 15; j++) {
                 JLabel cuadro = cuadros[i][j];
-                cuadro.setBackground(Color.LIGHT_GRAY);
+                cuadro.setBackground(Color.BLUE);
                 cuadro.setForeground(Color.BLACK);
             }
         }
     }
 
+    public void colorearCuadro(int fila, int columna) {
+        cuadros[fila][columna].setForeground(Color.YELLOW);
+        validate();
+        repaint();
+    }
 }

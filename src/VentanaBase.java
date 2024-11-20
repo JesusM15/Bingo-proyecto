@@ -10,4 +10,13 @@ public abstract class VentanaBase extends JFrame {
     }
 
     protected abstract void inicializarComponentes();
+
+    public void mostrar() {
+        setVisible(true);
+    }
+
+    public void ocultar() {
+        setVisible(false);
+    }
+
 }

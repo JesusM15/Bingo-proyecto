@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class VentanaJuego extends VentanaBase {
     private Juego juego;
-    private HistorialGrafico historialGrafico;
+    private Historial historial;
     private JLabel bolaActual;
     private JButton botonSiguienteBola;
 
@@ -16,33 +16,36 @@ public class VentanaJuego extends VentanaBase {
     @Override
     protected void inicializarComponentes() {
         // Usar el historial lógico desde el juego para crear el gráfico
-        historialGrafico = new HistorialGrafico(juego.getHistorial());
-        add(historialGrafico, BorderLayout.CENTER);
+        historial = juego.getHistorial();
+        add(historial, BorderLayout.CENTER);
 
-        // Panel inferior para controles
-        JPanel panelInferior = new JPanel(new BorderLayout());
 
-        // Mostrar bola actual
-        bolaActual = new JLabel("Bola Actual: --", SwingConstants.CENTER);
-        bolaActual.setFont(new Font("Arial", Font.BOLD, 24));
-        bolaActual.setOpaque(true);
-        bolaActual.setBackground(Color.WHITE);
-        bolaActual.setForeground(Color.BLACK);
-        panelInferior.add(bolaActual, BorderLayout.CENTER);
+        JPanel panelInferior = new JPanel();
+        panelInferior.setLayout(new FlowLayout());
 
-        // Botón de siguiente bola
+        bolaActual = new JLabel("Bola Actual: ");
         botonSiguienteBola = new JButton("Siguiente Bola");
-        botonSiguienteBola.addActionListener(e -> sacarBola());
-        panelInferior.add(botonSiguienteBola, BorderLayout.SOUTH);
+
+        botonSiguienteBola.addActionListener(e -> {
+            try {
+                juego.sacarBola(); // Delegamos la lógica a Juego
+                repaint();
+                revalidate();
+            } catch (IllegalStateException ex) {
+                JOptionPane.showMessageDialog(this, "¡No quedan más bolas en la tómbola!", "Fin del Juego", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        panelInferior.add(bolaActual);
+        panelInferior.add(botonSiguienteBola);
 
         add(panelInferior, BorderLayout.SOUTH);
     }
 
-    private void sacarBola() {
+    public void sacarBola() {
         try {
             Bola bola = juego.getTombola().obtenerBola();
-            historialGrafico.marcarBola(bola.getNumero()); // Actualizar el historial gráfico
-            bolaActual.setText("Bola Actual: " + bola.getColumna() + bola.getNumero());
+            historial.marcarBola(bola.getNumero()); // Actualizar el historial gráfico
         } catch (IllegalStateException ex) {
             JOptionPane.showMessageDialog(this, "¡No quedan más bolas en la tómbola!", "Fin del Juego", JOptionPane.INFORMATION_MESSAGE);
         }

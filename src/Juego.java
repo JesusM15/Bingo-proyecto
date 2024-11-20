@@ -15,7 +15,7 @@ public class Juego {
     }
 
     private void seleccionarPatron(){
-        ventanaConfiguracion.setVisible(true);
+        ventanaConfiguracion.mostrar();
     }
 
     // este es un action que se llama cuando se hace click en un Jbutton de la ventana de configuracion
@@ -24,10 +24,11 @@ public class Juego {
     // bolas que no puedan salir o sean invalidas para el patron.
     public void setPatronSeleccionado(Patron patronSeleccionado) {
         this.patronSeleccionado = patronSeleccionado;
-        ventanaConfiguracion.setVisible(false);
+        ventanaConfiguracion.ocultar();
         this.tombola = new Tombola(patronSeleccionado);
-
         this.ventanaJuego = new VentanaJuego(this);
+
+        ventanaJuego.mostrar();
     }
 
     public Tombola getTombola() {
@@ -36,5 +37,15 @@ public class Juego {
 
     public Historial getHistorial() {
         return historial;
+    }
+
+    // Método para sacar una bola
+    public void sacarBola() {
+        if (tombola == null) {
+            throw new IllegalStateException("Tómbola no inicializada");
+        }
+
+        Bola bola = tombola.obtenerBola();
+        historial.marcarBola(bola.getNumero());
     }
 }
