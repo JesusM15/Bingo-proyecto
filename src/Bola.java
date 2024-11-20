@@ -1,6 +1,7 @@
 public class Bola {
     private int numero;
     private String columna;
+    private boolean marcada;
 
     public Bola(int numero, String columna) {
         if(numero < 1 || numero > 75){
@@ -8,6 +9,15 @@ public class Bola {
         }
         this.numero = numero;
         this.columna = columna;
+        this.marcada = false;
+    }
+
+    public boolean isMarcada(){
+        return marcada;
+    }
+
+    public void setMarcada(boolean marcada){
+        this.marcada = marcada;
     }
 
     public int getNumero() {
