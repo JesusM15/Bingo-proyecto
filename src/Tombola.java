@@ -22,6 +22,8 @@ public class Tombola {
         return bola;
     }
 
+    // genera todas las bolas del 1 al 75 y las verifica, luego las agrega si son compatibles con el patron
+    // seleccionado por el usuario.
     public void generarBolas(){
         ArrayList<Bola> todasLasBolas = generador.generarBolas(1, 75);
 
@@ -39,6 +41,11 @@ public class Tombola {
         Collections.shuffle(bolas);
     }
 
+
+    // revisa si el numero de la bola dado entra en el rango de las columnas validas
+    // es decir primero ubica su columna luego checa si en cualquier fila del patron hay un true en esa columna
+    // lo que indica que puede tocar un numero en esa columna, de lo contrario devuelve false y pues el metodo generarBolas
+    // se encarga de agregar solo las que si son validas
     private boolean esPosicionValida(int numero, boolean[][] estructuraPatron) {
 
         int columna;

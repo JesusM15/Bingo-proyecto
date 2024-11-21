@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.util.Arrays;
+
 public class Juego {
     private VentanaConfiguracion ventanaConfiguracion;
     private VentanaJuego ventanaJuego;
@@ -47,5 +50,99 @@ public class Juego {
 
         Bola bola = tombola.obtenerBola();
         historial.marcarBola(bola.getNumero());
+    }
+
+    private int[][] crearCarta(){
+        int[][] carta = new int[5][5];
+        boolean[][] estructuraPatron = patronSeleccionado.getPatron();
+
+        for(int i = 0; i < estructuraPatron.length; i++){
+            for(int j = 0; j<estructuraPatron[i].length; j++){
+                if(estructuraPatron[i][j]){
+                    int numero = 0;
+                    do{
+
+                        // validar mediante crear carta y carta validara si el numero es valido en la columna.
+                        String numeroString = JOptionPane.showInputDialog(null, "Ingrese el numero de su carta\n" +
+                                "En la Fila: " + (i + 1) + " Columna: " + getColumna(j));
+
+                        // parsear el numero pedido a un entero ya que JOptionPane.showInputDialog, devuelve
+                        // una string y la matriz funciona con numeros enteros.
+                        if (numeroString != null && !numeroString.trim().isEmpty()) {
+                            try {
+                                numero = Integer.parseInt(numeroString.trim());
+                                carta[i][j] = numero;
+                            } catch (NumberFormatException e) {
+                                // Manejo de error si la entrada no es un número válido
+                                JOptionPane.showMessageDialog(null, "Por favor, ingresa un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                        if(!numeroValidoEnColumna(numero, getColumna(j))){
+                            JOptionPane.showMessageDialog(null, "ERROR, INPUT NO VALIDO PARA LA COLUMNA, VUELVA A ESCRIBIR EL NUMERO");
+                        }
+                    }while (!numeroValidoEnColumna(numero, getColumna(j)));
+
+                }
+            }
+        }
+
+        return carta;
+    }
+
+    // devuelve una string con la columna formateada teniendo en cuenta columna 1 - 5
+    private String getColumna(int numeroCol){
+        switch (numeroCol){
+            case 0: return "B";
+            case 1: return "I";
+            case 2: return "N";
+            case 3: return "G";
+            case 4: return "O";
+            default: return "0";
+        }
+    }
+
+    public void verificarCarta(){
+        int[][]carta =  crearCarta();
+        if(verificarSiGano(carta)){
+            JOptionPane.showMessageDialog(null, "FELICIDADES GANASTE!");
+        }else {
+            JOptionPane.showMessageDialog(null, "Tu carta no es ganadora.");
+        }
+    }
+
+    // recorre la matriz que representa la carta, en las posiciones donde se coloco algun numero
+    // se revisa si ya salieron y si no es asi entonces no ha ganado
+    // de lo contrario se sigue revisando y si todas pasan pues es bingo.
+    public boolean verificarSiGano(int[][] carta){
+        for(int i = 0; i<carta.length; i++){
+
+            for(int j = 0; j < carta[0].length; j++){
+                if(carta[i][j] != 0 && !historial.contains(carta[i][j])){
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    // revisa si el numero pasado si puede ir en la columna que se planea colocar
+    // siguiendo los rangos de las letras B I N G O
+    public static boolean numeroValidoEnColumna(int numero, String columna){
+
+        if (numero >= 1 && numero <= 15) {
+            return columna.equals("B");
+        } else if (numero >= 16 && numero <= 30) {
+            return columna.equals("I");
+        } else if (numero >= 31 && numero <= 45) {
+            return columna.equals("N");
+        } else if (numero >= 46 && numero <= 60) {
+            return columna.equals("G");
+        } else if (numero >= 61 && numero <= 75) {
+            return columna.equals("O");
+        } else {
+            return false; // Número fuera de rango
+        }
+
     }
 }

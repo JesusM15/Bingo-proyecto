@@ -70,4 +70,17 @@ public class Historial extends HistorialGrafico {
     public void reset() {
         inicializarCeldas(); // Vuelve a inicializar todas las celdas
     }
+
+    // metodo para saber si el historial contiene x numero marcado o salido.
+    public boolean contains(int numero){
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 15; j++) {
+                // si esta marcada la celda (es decir ya salio)
+                if(this.celdas[i][j].getNumero() == numero && this.celdas[i][j].isMarcada()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
