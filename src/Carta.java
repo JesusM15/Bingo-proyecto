@@ -25,7 +25,13 @@ public class Carta {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i<this.numeros.length; i++){
             for(int j = 0; j<this.numeros[0].length; j++){
-                sb.append(this.numeros[i][j]);
+                if(this.numeros[i][j] != 0){
+                    sb.append(String.format("%2s", this.numeros[i][j]));
+                }else {
+                    sb.append(String.format("%3s", "*"));
+                }
+
+                sb.append(" ");
             }
             sb.append("\n");
         }
