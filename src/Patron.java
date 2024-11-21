@@ -13,16 +13,9 @@ public class Patron {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
 
     public boolean[][] getPatron() {
         return patron;
-    }
-
-    public void setPatron(boolean[][] patron) {
-        this.patron = patron;
     }
 
     public String toString() {

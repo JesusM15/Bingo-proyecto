@@ -77,16 +77,6 @@ public abstract class HistorialGrafico extends JPanel{
 
     public abstract void marcarBola(int numero);
 
-    public void resetHistorial() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 15; j++) {
-                JLabel cuadro = cuadros[i][j];
-                cuadro.setBackground(Color.BLUE);
-                cuadro.setForeground(Color.BLACK);
-            }
-        }
-    }
-
     public void colorearCuadro(int fila, int columna) {
         cuadros[fila][columna].setForeground(Color.YELLOW);
         validate();

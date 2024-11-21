@@ -29,13 +29,10 @@ public class Juego {
         this.patronSeleccionado = patronSeleccionado;
         ventanaConfiguracion.ocultar();
         this.tombola = new Tombola(patronSeleccionado);
+        this.tombola.generarBolas();
         this.ventanaJuego = new VentanaJuego(this);
 
         ventanaJuego.mostrar();
-    }
-
-    public Tombola getTombola() {
-        return tombola;
     }
 
     public Historial getHistorial() {

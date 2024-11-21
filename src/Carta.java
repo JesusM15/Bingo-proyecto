@@ -5,14 +5,6 @@ public class Carta {
         numeros = new int[5][5];
     }
 
-    public int[][] getNumeros() {
-        return numeros;
-    }
-
-    public void setNumeros(int[][] numeros) {
-        this.numeros = numeros;
-    }
-
     public void setNumero(int n, int x, int y){
         this.numeros[x][y] = n;
     }

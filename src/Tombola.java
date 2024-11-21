@@ -10,7 +10,6 @@ public class Tombola {
         this.generador = new GeneradorBolasAleatorias();
         this.bolas = new ArrayList<>();
         this.patron = patron;
-        generarBolas();
     }
 
     public Bola obtenerBola(){
@@ -70,10 +69,6 @@ public class Tombola {
             }
         }
         return false;
-    }
-
-    public ArrayList<Bola> getBolas() {
-        return bolas;
     }
 
 }

@@ -24,17 +24,6 @@ public class Bola {
         return numero;
     }
 
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
-
-    public String getColumna() {
-        return columna;
-    }
-
-    public void setColumna(String columna) {
-        this.columna = columna;
-    }
 
     @Override
     public String toString() {

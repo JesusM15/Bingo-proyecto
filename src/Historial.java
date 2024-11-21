@@ -56,11 +56,6 @@ public class Historial extends HistorialGrafico {
         }
     }
 
-    // Marca una bola lógica como seleccionada
-    public void marcarBola(int x, int y) {
-        celdas[x][y].setMarcada(true); // Marcar la bola como seleccionada
-    }
-
     // Retorna la matriz de bolas
     public Bola[][] getCeldas() {
         return celdas;
