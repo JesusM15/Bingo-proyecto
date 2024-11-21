@@ -52,8 +52,8 @@ public class Juego {
         historial.marcarBola(bola.getNumero());
     }
 
-    private int[][] crearCarta(){
-        int[][] carta = new int[5][5];
+    private Carta crearCarta(){
+        Carta carta = new Carta();
         boolean[][] estructuraPatron = patronSeleccionado.getPatron();
 
         for(int i = 0; i < estructuraPatron.length; i++){
@@ -71,7 +71,7 @@ public class Juego {
                         if (numeroString != null && !numeroString.trim().isEmpty()) {
                             try {
                                 numero = Integer.parseInt(numeroString.trim());
-                                carta[i][j] = numero;
+                                carta.setNumero(numero, i, j);
                             } catch (NumberFormatException e) {
                                 // Manejo de error si la entrada no es un número válido
                                 JOptionPane.showMessageDialog(null, "Por favor, ingresa un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -102,7 +102,7 @@ public class Juego {
     }
 
     public void verificarCarta(){
-        int[][]carta =  crearCarta();
+        Carta carta = crearCarta();
         if(verificarSiGano(carta)){
             JOptionPane.showMessageDialog(null, "FELICIDADES GANASTE!");
         }else {
@@ -113,23 +113,13 @@ public class Juego {
     // recorre la matriz que representa la carta, en las posiciones donde se coloco algun numero
     // se revisa si ya salieron y si no es asi entonces no ha ganado
     // de lo contrario se sigue revisando y si todas pasan pues es bingo.
-    public boolean verificarSiGano(int[][] carta){
-        for(int i = 0; i<carta.length; i++){
-
-            for(int j = 0; j < carta[0].length; j++){
-                if(carta[i][j] != 0 && !historial.contains(carta[i][j])){
-                    return false;
-                }
-            }
-        }
-
-        return true;
+    public boolean verificarSiGano(Carta carta){
+        return carta.verificarSiEsGanadora(historial);
     }
 
     // revisa si el numero pasado si puede ir en la columna que se planea colocar
     // siguiendo los rangos de las letras B I N G O
-    public static boolean numeroValidoEnColumna(int numero, String columna){
-
+    public boolean numeroValidoEnColumna(int numero, String columna){
         if (numero >= 1 && numero <= 15) {
             return columna.equals("B");
         } else if (numero >= 16 && numero <= 30) {
@@ -143,6 +133,5 @@ public class Juego {
         } else {
             return false; // Número fuera de rango
         }
-
     }
 }
