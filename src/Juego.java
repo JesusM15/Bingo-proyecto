@@ -101,9 +101,9 @@ public class Juego {
     public void verificarCarta(){
         Carta carta = crearCarta();
         if(verificarSiGano(carta)){
-            JOptionPane.showMessageDialog(null, "FELICIDADES GANASTE!");
+            JOptionPane.showMessageDialog(null, "FELICIDADES GANASTE!\nCarta:\n" + carta);
         }else {
-            JOptionPane.showMessageDialog(null, "Tu carta no es ganadora.");
+            JOptionPane.showMessageDialog(null, "Tu carta no es ganadora.\nCarta:\n" + carta);
         }
     }
 

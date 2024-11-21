@@ -20,4 +20,15 @@ public class Carta {
         return true;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i<this.numeros.length; i++){
+            for(int j = 0; j<this.numeros[0].length; j++){
+                sb.append(this.numeros[i][j]);
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
 }
