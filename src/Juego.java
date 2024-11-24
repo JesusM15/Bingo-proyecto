@@ -57,28 +57,39 @@ public class Juego {
             for(int j = 0; j<estructuraPatron[i].length; j++){
                 if(estructuraPatron[i][j]){
                     int numero = 0;
+
+                    // espacio free
+                    if(i == 2 && j == 2){
+                        continue;
+                    }
+
                     do{
 
                         // validar mediante crear carta y carta validara si el numero es valido en la columna.
                         String numeroString = JOptionPane.showInputDialog(null, "Ingrese el numero de su carta\n" +
-                                "En la Fila: " + (i + 1) + " Columna: " + getColumna(j));
+                                "En la Fila: " + (i + 1) + " Columna: " + getColumna(j) + "\n" + carta);
 
                         // parsear el numero pedido a un entero ya que JOptionPane.showInputDialog, devuelve
                         // una string y la matriz funciona con numeros enteros.
                         if (numeroString != null && !numeroString.trim().isEmpty()) {
                             try {
                                 numero = Integer.parseInt(numeroString.trim());
-                                carta.setNumero(numero, i, j);
                             } catch (NumberFormatException e) {
                                 // Manejo de error si la entrada no es un número válido
                                 JOptionPane.showMessageDialog(null, "Por favor, ingresa un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
                             }
                         }
-                        if(!numeroValidoEnColumna(numero, getColumna(j))){
-                            JOptionPane.showMessageDialog(null, "ERROR, INPUT NO VALIDO PARA LA COLUMNA, VUELVA A ESCRIBIR EL NUMERO");
+                        if(!numeroValidoEnColumna(numero, getColumna(j)) || carta.yaExisteElNumero(numero)){
+                            if(!numeroValidoEnColumna(numero, getColumna(j))){
+                                JOptionPane.showMessageDialog(null, "ERROR, INPUT NO VALIDO PARA LA COLUMNA, VUELVA A ESCRIBIR EL NUMERO");
+                            }else{
+                                JOptionPane.showMessageDialog(null, "ERROR, EL NUMERO " + numero + " Ya existe en la carta");
+                            }
                         }
-                    }while (!numeroValidoEnColumna(numero, getColumna(j)));
 
+                    } while (!numeroValidoEnColumna(numero, getColumna(j)) || carta.yaExisteElNumero(numero));
+
+                    carta.setNumero(numero, i, j);
                 }
             }
         }
